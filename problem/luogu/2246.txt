@@ -1,0 +1,3 @@
+Kruskal
+Prim
+二分答案
