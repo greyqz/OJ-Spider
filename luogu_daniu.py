@@ -64,7 +64,7 @@ def main():
         url = get_url(page)
         try:
             html = get_html(url,1001)
-            print "get"+str(page)
+            #print "get"+str(page)
         except:
             pages.append(page)
             continue
