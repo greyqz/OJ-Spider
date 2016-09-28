@@ -81,15 +81,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-'''
-<div class="am-g lg-table-bg0 lg-table-row">
-	<div class="am-u-md-10 lg-table-big t"><a href="/record/lists?uid=6775&amp;pid=3357" target="_blank"><strong class=""><i class="am-icon-minus"></i></strong></a>         <span class="am-badge am-badge-warning am-radius"><i class="am-icon-diamond"></i></span>         P3357        <a data-pjax="" href="/problem/show?pid=3357">最长 k可重线段集问题</a>
-        <span class="lg-right am-text-right">
-        <span class="am-badge am-radius lg-bg-gray">尚无评定</span><div class="am-text-right"></div>	</span></div>
-	<div class="am-u-md-2 lg-table-small">
-		<!--0分<br>-->
-		<div class="am-progress"><div class="am-progress-bar am-progress-bar-secondary" style="width: 0%">0/0		</div></div>
-	</div>
-    </div>
-'''
