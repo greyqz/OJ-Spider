@@ -1,47 +1,9 @@
 #-*- coding:utf-8 -*
 import time,sys
-import urllib
-import urllib2
-import random
-import sqlite3
-import re
-
-def pipei(html,r):
-    p=re.compile(r,re.S)
-    finds = re.findall(p, html)
-    return finds
-
-def get_header(pid):
-    headers=[
-    "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-    "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393"
-    ]
-    Referer='http://www.luogu.org/problem/lists?name=&orderitem=&order=&tag=&page='+str((pid-1000)/50+1)
-    return {'User-Agent':headers[random.randint(0,3)],'Referer':Referer}
+from base import *
 
 def get_url(pid):
     return "http://www.luogu.org/problem/show?pid="+str(pid)#+"&_pjax=.lg-content"
-
-def get_html(url,pid):
-    req = urllib2.Request(url=url, headers=get_header(pid))
-    response = urllib2.urlopen(req)
-    return response.read()
-
-def get_real_text(raw_html):
-    result = raw_html.replace('<p>','')
-    result = result.replace('</p>','\n')
-    result = result.replace('<br>','\n')
-    result = result.replace('\'',"''")
-    result = result.strip()
-    return result
-
-def has_value(find):
-    if find:
-        return get_real_text(find[0])
-    else:
-        return ''
 
 def insert_db(conn,pid,title,beijing,miaoshu,ingeshi,outgeshi,inyangli,outyangli,shuoming,put,down,nandu,putuser,year,saixi):
     conn.execute("INSERT INTO LUOGUPROBLEM (PID,TITLE,BEIJING,MIAOSHU,INGESHI,OUTGESHI,INYANGLI,OUTYANGLI,SHUOMING,PUT,DOWN,NANDU,PUTUSER,YEAR,SAIXI) \
@@ -86,9 +48,9 @@ def main():
             html = get_html(url,pid)
             x+=1
         except:
-            print time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+'  '+str(x)+'/'+str(num)+'   '+str(pid)+'  failed' 
+            print time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+'  '+str(x)+'/'+str(num)+'   '+str(pid)+'  failed'
             pidlist.append(pid)
-            continue			
+            continue
         titler   = r'<div\ class=\"lg\-toolbar\"\ data\-am\-sticky.+?</strong></a> P.+?\ (.+?)</h1.+?/div>'
         beijingr = r'<h2>题目背景</h2>(.+?)<h2>题目描述</h2>'
         miaoshur = r'<h2>题目描述</h2>(.+?)<h2>输入输出格式</h2>'
@@ -110,7 +72,7 @@ def main():
             title = get_real_text(raw_title[0])
             #print title
         else:
-            print time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+'  '+str(x)+'/'+str(num)+'   '+str(pid)+'  pass' 
+            print time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+'  '+str(x)+'/'+str(num)+'   '+str(pid)+'  pass'
             f.write(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+'  '+str(x)+'/'+str(num)+'   '+str(pid)+'  pass\n')
             continue
         beijing = has_value(pipei(html,beijingr))
